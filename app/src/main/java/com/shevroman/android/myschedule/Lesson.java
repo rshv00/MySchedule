@@ -6,12 +6,6 @@ package com.shevroman.android.myschedule;
 
 public class Lesson {
 
-    public enum Week {All, Numerator, Denominator}
-
-    public enum DayOfWeek {Monday, Tuesday, Wednesday, Thursday, Friday}
-
-    public enum Semester {Autumn, Spring}
-
     private String name;
     private DayOfWeek dayOfWeek;
     private int lessonNumber;
@@ -108,6 +102,12 @@ public class Lesson {
                 ", semester=" + semester +
                 '}';
     }
+
+    public enum Week {All, Numerator, Denominator}
+
+    public enum DayOfWeek {Monday, Tuesday, Wednesday, Thursday, Friday}
+
+    public enum Semester {Autumn, Spring}
 
 
 }

@@ -1,8 +1,5 @@
 package com.shevroman.android.myschedule.ui;
 
-import android.app.Activity;
-import android.content.Context;
-import android.content.SharedPreferences;
 import android.databinding.DataBindingUtil;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -33,9 +30,10 @@ public class ChooseGroupActivity extends AppCompatActivity {
         new AsyncTask<Void, Void, List<String>>() {
             @Override
             protected List<String> doInBackground(Void... voids) {
-                // hh h
                 try {
-                    return new ArrayList<>(scheduleRepository.getAllGroups(2017, Lesson.Semester.Spring));
+                    ArrayList<String> allGroups = new ArrayList<>(scheduleRepository.getAllGroups(2017, Lesson.Semester.Spring));
+                    Collections.sort(allGroups);
+                    return allGroups;
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
