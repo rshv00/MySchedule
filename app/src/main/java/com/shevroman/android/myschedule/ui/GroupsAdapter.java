@@ -7,7 +7,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-
 import com.shevroman.android.myschedule.R;
 
 import java.util.List;
@@ -56,7 +55,9 @@ public class GroupsAdapter extends RecyclerView.Adapter<GroupsAdapter.ViewHolder
 
         @Override
         public void onClick(View view) {
-            GroupScheduleActivity.show(activity, groupName);
+
+            activity.finish();
+
         }
     }
 }

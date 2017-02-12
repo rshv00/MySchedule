@@ -3,20 +3,22 @@
     package="com.shevroman.android.myschedule">
 
     <application
+        android:name=".App"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="MySchedule"
         android:supportsRtl="true"
-        android:name=".App"
         android:theme="@style/AppTheme">
-        <activity android:name=".ui.ChooseGroupActivity">
+        <activity
+            android:name=".ui.ChooseGroupActivity"
+            android:label="Оберіть групу"></activity>
+        <activity
+            android:name=".ui.GroupScheduleActivity"
+            android:label="Розклад занять">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".ui.GroupScheduleActivity">
-        </activity>
     </application>
-
 </manifest>

@@ -1,6 +1,5 @@
 package com.shevroman.android.myschedule.ui;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.databinding.DataBindingUtil;
 import android.os.AsyncTask;
@@ -11,6 +10,7 @@ import android.text.Html;
 import com.shevroman.android.myschedule.Lesson;
 import com.shevroman.android.myschedule.R;
 import com.shevroman.android.myschedule.ScheduleRepository;
+import com.shevroman.android.myschedule.databinding.ActivityChooseGroupBinding;
 import com.shevroman.android.myschedule.databinding.ActivityGroupScheduleBinding;
 
 import java.io.IOException;
@@ -23,22 +23,23 @@ import static com.shevroman.android.myschedule.Lesson.Week.Numerator;
 
 
 public class GroupScheduleActivity extends AppCompatActivity {
+    private ActivityChooseGroupBinding bind;
     private String groupName;
     private ActivityGroupScheduleBinding binding;
     private ScheduleRepository scheduleRepository = new ScheduleRepository();
-
-    static void show(Activity activity, String groupName) {
-        Intent intent = new Intent(activity, GroupScheduleActivity.class);
-        intent.putExtra("groupName", groupName);
-        activity.startActivity(intent);
-    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
         super.onCreate(savedInstanceState);
         binding = DataBindingUtil.setContentView(this, R.layout.activity_group_schedule);
-        groupName = getIntent().getStringExtra("groupName");
+
+        if (true == true) {
+            Intent intent = new Intent(this, ChooseGroupActivity.class);
+            intent.putExtra("groupName", );
+            intent.startActivityForResult();
+            return;
+        }
 
         Calendar now = Calendar.getInstance();
         final int year = now.get(Calendar.YEAR);
@@ -62,6 +63,7 @@ public class GroupScheduleActivity extends AppCompatActivity {
             }
         }.execute();
     }
+
 
     private void showScheduleOnUI(List<Lesson> lessons) {
         StringBuilder sb = new StringBuilder();
