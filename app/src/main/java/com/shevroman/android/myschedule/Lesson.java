@@ -1,4 +1,4 @@
-package com.example.android.myschedule;
+package com.shevroman.android.myschedule;
 
 /**
  * Created by Рома on 04.02.2017.

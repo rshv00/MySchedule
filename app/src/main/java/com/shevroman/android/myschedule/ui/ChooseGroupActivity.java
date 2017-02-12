@@ -1,4 +1,4 @@
-package com.example.android.myschedule.ui;
+package com.shevroman.android.myschedule.ui;
 
 import android.app.Activity;
 import android.content.Context;
@@ -9,10 +9,10 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 
-import com.example.android.myschedule.Lesson;
-import com.example.android.myschedule.R;
-import com.example.android.myschedule.ScheduleRepository;
-import com.example.android.myschedule.databinding.ActivityChooseGroupBinding;
+import com.shevroman.android.myschedule.Lesson;
+import com.shevroman.android.myschedule.R;
+import com.shevroman.android.myschedule.ScheduleRepository;
+import com.shevroman.android.myschedule.databinding.ActivityChooseGroupBinding;
 
 import java.io.IOException;
 import java.util.ArrayList;

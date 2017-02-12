@@ -1,4 +1,4 @@
-package com.example.android.myschedule.ui;
+package com.shevroman.android.myschedule.ui;
 
 import android.app.Activity;
 import android.support.v7.widget.RecyclerView;
@@ -7,7 +7,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import com.example.android.myschedule.R;
+
+import com.shevroman.android.myschedule.R;
 
 import java.util.List;
 

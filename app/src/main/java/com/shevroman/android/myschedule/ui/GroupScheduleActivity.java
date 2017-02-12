@@ -1,4 +1,4 @@
-package com.example.android.myschedule.ui;
+package com.shevroman.android.myschedule.ui;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -8,18 +8,19 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.text.Html;
 
-import com.example.android.myschedule.Lesson;
-import com.example.android.myschedule.R;
-import com.example.android.myschedule.ScheduleRepository;
-import com.example.android.myschedule.databinding.ActivityGroupScheduleBinding;
+import com.shevroman.android.myschedule.Lesson;
+import com.shevroman.android.myschedule.R;
+import com.shevroman.android.myschedule.ScheduleRepository;
+import com.shevroman.android.myschedule.databinding.ActivityGroupScheduleBinding;
 
 import java.io.IOException;
 import java.util.Calendar;
 import java.util.Collections;
 import java.util.List;
 
-import static com.example.android.myschedule.Lesson.Week.Denominator;
-import static com.example.android.myschedule.Lesson.Week.Numerator;
+import static com.shevroman.android.myschedule.Lesson.Week.Denominator;
+import static com.shevroman.android.myschedule.Lesson.Week.Numerator;
+
 
 public class GroupScheduleActivity extends AppCompatActivity {
     private String groupName;

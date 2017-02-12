@@ -1,4 +1,4 @@
-package com.example.android.myschedule;
+package com.shevroman.android.myschedule;
 
 import java.io.IOException;
 import java.io.InputStreamReader;
