@@ -1,6 +1,7 @@
 package com.shevroman.android.myschedule.ui;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -54,8 +55,10 @@ public class GroupsAdapter extends RecyclerView.Adapter<GroupsAdapter.ViewHolder
         }
 
         @Override
-        public void onClick(View view) {
-
+        public void onClick(View view) {//2
+            Intent returnIntent = new Intent();
+            returnIntent.putExtra("result", groupName);
+            activity.setResult(Activity.RESULT_OK, returnIntent);
             activity.finish();
 
         }

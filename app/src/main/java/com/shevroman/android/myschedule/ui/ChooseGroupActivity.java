@@ -1,6 +1,5 @@
 package com.shevroman.android.myschedule.ui;
 
-import android.content.SharedPreferences;
 import android.databinding.DataBindingUtil;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -26,13 +25,7 @@ public class ChooseGroupActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         binding = DataBindingUtil.setContentView(this, R.layout.activity_choose_group);
-        Lesson lesson = new Lesson();
-
         binding.recyclerView.setLayoutManager(new LinearLayoutManager(this));
-
-        SharedPreferences.Editor editor = getSharedPreferences(CHOSEN_GROUP, MODE_PRIVATE).edit();
-        editor.putString("groupName", lesson.getGroupName());
-
 
         new AsyncTask<Void, Void, List<String>>() {
             @Override

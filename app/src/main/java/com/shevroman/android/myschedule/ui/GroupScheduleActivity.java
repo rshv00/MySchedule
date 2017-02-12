@@ -1,5 +1,6 @@
 package com.shevroman.android.myschedule.ui;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.databinding.DataBindingUtil;
 import android.os.AsyncTask;
@@ -8,6 +9,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.text.Html;
 
 import com.shevroman.android.myschedule.Lesson;
+import com.shevroman.android.myschedule.Preferences;
 import com.shevroman.android.myschedule.R;
 import com.shevroman.android.myschedule.ScheduleRepository;
 import com.shevroman.android.myschedule.databinding.ActivityChooseGroupBinding;
@@ -23,6 +25,7 @@ import static com.shevroman.android.myschedule.Lesson.Week.Numerator;
 
 
 public class GroupScheduleActivity extends AppCompatActivity {
+    Preferences preferences = new Preferences();
     private ActivityChooseGroupBinding bind;
     private String groupName;
     private ActivityGroupScheduleBinding binding;
@@ -33,11 +36,15 @@ public class GroupScheduleActivity extends AppCompatActivity {
 
         super.onCreate(savedInstanceState);
         binding = DataBindingUtil.setContentView(this, R.layout.activity_group_schedule);
-
+//1
         if (true == true) {
+            Lesson lesson = new Lesson();
+
             Intent intent = new Intent(this, ChooseGroupActivity.class);
-            intent.putExtra("groupName", );
-            intent.startActivityForResult();
+            startActivityForResult(intent, 1);
+            onActivityResult(1, RESULT_OK, intent);
+            groupName = lesson.getGroupName();
+            preferences.setSelectedGroup(groupName);
             return;
         }
 
@@ -64,6 +71,19 @@ public class GroupScheduleActivity extends AppCompatActivity {
         }.execute();
     }
 
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+//3
+        if (requestCode == 1) {
+            if (resultCode == Activity.RESULT_OK) {
+                String result = data.getStringExtra("result");
+
+            }
+            if (resultCode == Activity.RESULT_CANCELED) {
+                //Write your code if there's no result
+            }
+        }
+    }
 
     private void showScheduleOnUI(List<Lesson> lessons) {
         StringBuilder sb = new StringBuilder();
@@ -92,9 +112,9 @@ public class GroupScheduleActivity extends AppCompatActivity {
             }
             sb.append(lesson.getLessonNumber())
                     .append(". ");
-            if (lesson.getWeek()==Denominator) {
+            if (lesson.getWeek() == Denominator) {
                 sb.append("<small>знам</small> ");
-            }else if (lesson.getWeek()==Numerator){
+            } else if (lesson.getWeek() == Numerator) {
                 sb.append("<small>чис</small> ");
             }
             sb.append(lesson.getName())
