@@ -17,6 +17,7 @@ import java.util.Collections;
 import java.util.List;
 
 public class ChooseGroupActivity extends AppCompatActivity {
+    public static final String CHOSEN_GROUP = null;
     private ActivityChooseGroupBinding binding;
     private ScheduleRepository scheduleRepository = new ScheduleRepository();
 
@@ -24,13 +25,13 @@ public class ChooseGroupActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         binding = DataBindingUtil.setContentView(this, R.layout.activity_choose_group);
-
         binding.recyclerView.setLayoutManager(new LinearLayoutManager(this));
 
         new AsyncTask<Void, Void, List<String>>() {
             @Override
             protected List<String> doInBackground(Void... voids) {
                 try {
+
                     ArrayList<String> allGroups = new ArrayList<>(scheduleRepository.getAllGroups(2017, Lesson.Semester.Spring));
                     Collections.sort(allGroups);
                     return allGroups;
@@ -46,9 +47,5 @@ public class ChooseGroupActivity extends AppCompatActivity {
             }
         }.execute();
 
-
-
     }
-
-
 }

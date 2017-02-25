@@ -9,8 +9,10 @@ import android.support.v7.app.AppCompatActivity;
 import android.text.Html;
 
 import com.shevroman.android.myschedule.Lesson;
+import com.shevroman.android.myschedule.Preferences;
 import com.shevroman.android.myschedule.R;
 import com.shevroman.android.myschedule.ScheduleRepository;
+import com.shevroman.android.myschedule.databinding.ActivityChooseGroupBinding;
 import com.shevroman.android.myschedule.databinding.ActivityGroupScheduleBinding;
 
 import java.io.IOException;
@@ -23,22 +25,28 @@ import static com.shevroman.android.myschedule.Lesson.Week.Numerator;
 
 
 public class GroupScheduleActivity extends AppCompatActivity {
+    Preferences preferences = new Preferences();
+    private ActivityChooseGroupBinding bind;
     private String groupName;
     private ActivityGroupScheduleBinding binding;
     private ScheduleRepository scheduleRepository = new ScheduleRepository();
-
-    static void show(Activity activity, String groupName) {
-        Intent intent = new Intent(activity, GroupScheduleActivity.class);
-        intent.putExtra("groupName", groupName);
-        activity.startActivity(intent);
-    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
         super.onCreate(savedInstanceState);
         binding = DataBindingUtil.setContentView(this, R.layout.activity_group_schedule);
-        groupName = getIntent().getStringExtra("groupName");
+//1
+        if (true == true) {
+            Lesson lesson = new Lesson();
+
+            Intent intent = new Intent(this, ChooseGroupActivity.class);
+            startActivityForResult(intent, 1);
+            onActivityResult(1, RESULT_OK, intent);
+            groupName = lesson.getGroupName();
+            preferences.setSelectedGroup(groupName);
+            return;
+        }
 
         Calendar now = Calendar.getInstance();
         final int year = now.get(Calendar.YEAR);
@@ -61,6 +69,20 @@ public class GroupScheduleActivity extends AppCompatActivity {
                 showScheduleOnUI(lessons);
             }
         }.execute();
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+//3
+        if (requestCode == 1) {
+            if (resultCode == Activity.RESULT_OK) {
+                String result = data.getStringExtra("result");
+
+            }
+            if (resultCode == Activity.RESULT_CANCELED) {
+                //Write your code if there's no result
+            }
+        }
     }
 
     private void showScheduleOnUI(List<Lesson> lessons) {
@@ -90,9 +112,9 @@ public class GroupScheduleActivity extends AppCompatActivity {
             }
             sb.append(lesson.getLessonNumber())
                     .append(". ");
-            if (lesson.getWeek()==Denominator) {
+            if (lesson.getWeek() == Denominator) {
                 sb.append("<small>знам</small> ");
-            }else if (lesson.getWeek()==Numerator){
+            } else if (lesson.getWeek() == Numerator) {
                 sb.append("<small>чис</small> ");
             }
             sb.append(lesson.getName())
