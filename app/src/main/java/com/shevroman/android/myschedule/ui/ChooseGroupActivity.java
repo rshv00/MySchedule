@@ -17,7 +17,6 @@ import java.util.Collections;
 import java.util.List;
 
 public class ChooseGroupActivity extends AppCompatActivity {
-    public static final String CHOSEN_GROUP = null;
     private ActivityChooseGroupBinding binding;
     private ScheduleRepository scheduleRepository = new ScheduleRepository();
 

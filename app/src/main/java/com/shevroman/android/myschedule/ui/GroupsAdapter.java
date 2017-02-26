@@ -12,6 +12,8 @@ import com.shevroman.android.myschedule.R;
 
 import java.util.List;
 
+import static android.app.Activity.RESULT_OK;
+
 /**
  * Created by taras on 11.02.17.
  */
@@ -55,12 +57,12 @@ public class GroupsAdapter extends RecyclerView.Adapter<GroupsAdapter.ViewHolder
         }
 
         @Override
-        public void onClick(View view) {//2
+        public void onClick(View view) {
+            // 2
             Intent returnIntent = new Intent();
             returnIntent.putExtra("result", groupName);
-            activity.setResult(Activity.RESULT_OK, returnIntent);
+            activity.setResult(RESULT_OK, returnIntent);
             activity.finish();
-
         }
     }
 }

@@ -23,7 +23,6 @@ import java.util.List;
 import static com.shevroman.android.myschedule.Lesson.Week.Denominator;
 import static com.shevroman.android.myschedule.Lesson.Week.Numerator;
 
-
 public class GroupScheduleActivity extends AppCompatActivity {
     Preferences preferences = new Preferences();
     private ActivityChooseGroupBinding bind;
@@ -36,18 +35,17 @@ public class GroupScheduleActivity extends AppCompatActivity {
 
         super.onCreate(savedInstanceState);
         binding = DataBindingUtil.setContentView(this, R.layout.activity_group_schedule);
-//1
-        if (true == true) {
-            Lesson lesson = new Lesson();
-
-            Intent intent = new Intent(this, ChooseGroupActivity.class);
+        // 1
+        groupName = preferences.getSelectedGroup(this);
+        Intent intent = new Intent(this, ChooseGroupActivity.class);
+        if (groupName.isEmpty()) {
             startActivityForResult(intent, 1);
-            onActivityResult(1, RESULT_OK, intent);
-            groupName = lesson.getGroupName();
-            preferences.setSelectedGroup(groupName);
             return;
         }
+        showSchedule();
+    }
 
+    private void showSchedule() {
         Calendar now = Calendar.getInstance();
         final int year = now.get(Calendar.YEAR);
         int month = now.get(Calendar.MONTH) + 1;
@@ -76,11 +74,9 @@ public class GroupScheduleActivity extends AppCompatActivity {
 //3
         if (requestCode == 1) {
             if (resultCode == Activity.RESULT_OK) {
-                String result = data.getStringExtra("result");
-
-            }
-            if (resultCode == Activity.RESULT_CANCELED) {
-                //Write your code if there's no result
+                groupName = data.getStringExtra("result");
+                preferences.setSelectedGroup(groupName, this);
+                showSchedule();
             }
         }
     }
