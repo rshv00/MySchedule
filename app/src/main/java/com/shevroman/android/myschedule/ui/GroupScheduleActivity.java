@@ -32,7 +32,6 @@ public class GroupScheduleActivity extends AppCompatActivity {
     private String groupName;
     private ActivityGroupScheduleBinding binding;
     private ScheduleRepository scheduleRepository = new ScheduleRepository();
-    Intent intent = new Intent(this, ChooseGroupActivity.class);
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,6 +41,7 @@ public class GroupScheduleActivity extends AppCompatActivity {
         // 1
         groupName = preferences.getSelectedGroup(this);
         if (groupName.isEmpty()) {
+            Intent intent = new Intent(this, ChooseGroupActivity.class);
             startActivityForResult(intent, 1);
             return;
         }
@@ -138,6 +138,7 @@ public class GroupScheduleActivity extends AppCompatActivity {
         super.onOptionsItemSelected(item);
         switch (item.getItemId()) {
             case R.id.another_group:
+                Intent intent = new Intent(this, ChooseGroupActivity.class);
                 startActivityForResult(intent, 1);
                 break;
         }
