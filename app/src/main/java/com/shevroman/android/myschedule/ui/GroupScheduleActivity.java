@@ -7,6 +7,9 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.text.Html;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 
 import com.shevroman.android.myschedule.Lesson;
 import com.shevroman.android.myschedule.Preferences;
@@ -37,8 +40,8 @@ public class GroupScheduleActivity extends AppCompatActivity {
         binding = DataBindingUtil.setContentView(this, R.layout.activity_group_schedule);
         // 1
         groupName = preferences.getSelectedGroup(this);
-        Intent intent = new Intent(this, ChooseGroupActivity.class);
         if (groupName.isEmpty()) {
+            Intent intent = new Intent(this, ChooseGroupActivity.class);
             startActivityForResult(intent, 1);
             return;
         }
@@ -121,5 +124,26 @@ public class GroupScheduleActivity extends AppCompatActivity {
                     .append("</i><br>");
         }
         binding.groupScheduleContent.setText(Html.fromHtml(sb.toString()));
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.items, menu);
+        return super.onCreateOptionsMenu(menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        super.onOptionsItemSelected(item);
+        switch (item.getItemId()) {
+            case R.id.another_group:
+                Intent intent = new Intent(this, ChooseGroupActivity.class);
+                startActivityForResult(intent, 1);
+                break;
+        }
+
+        return true;
+
     }
 }
