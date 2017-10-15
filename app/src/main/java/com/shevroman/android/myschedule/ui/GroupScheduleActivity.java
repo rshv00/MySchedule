@@ -7,6 +7,7 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.text.Html;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -18,7 +19,10 @@ import com.shevroman.android.myschedule.ScheduleRepository;
 import com.shevroman.android.myschedule.databinding.ActivityChooseGroupBinding;
 import com.shevroman.android.myschedule.databinding.ActivityGroupScheduleBinding;
 
+import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.util.Calendar;
 import java.util.Collections;
 import java.util.List;
@@ -35,9 +39,17 @@ public class GroupScheduleActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-
         super.onCreate(savedInstanceState);
         binding = DataBindingUtil.setContentView(this, R.layout.activity_group_schedule);
+        ScheduleAsyncTask asyncTask = new ScheduleAsyncTask();
+        asyncTask.execute();
+        try {
+            PrintWriter pw = new PrintWriter(new File(getFilesDir(), "schedule.csv"));
+            pw.write(ScheduleAsyncTask.csvR);
+        } catch (FileNotFoundException e) {
+            Log.e(getClass().getSimpleName(), "schedule.csv is not written");
+        }
+
         // 1
         groupName = preferences.getSelectedGroup(this);
         if (groupName.isEmpty()) {
@@ -146,4 +158,7 @@ public class GroupScheduleActivity extends AppCompatActivity {
         return true;
 
     }
+
+
+
 }

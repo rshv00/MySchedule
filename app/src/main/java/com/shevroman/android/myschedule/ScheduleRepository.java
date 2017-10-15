@@ -1,5 +1,9 @@
 package com.shevroman.android.myschedule;
 
+import android.app.Activity;
+
+import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
@@ -13,7 +17,8 @@ import au.com.bytecode.opencsv.CSVReader;
  * Created by Рома on 04.02.2017.
  */
 
-public class ScheduleRepository {
+public class ScheduleRepository extends Activity {
+
 
     public Set<String> getAllGroups(int year, Lesson.Semester semester) throws IOException {
         Set<String> groups = new HashSet<>();
@@ -67,13 +72,14 @@ public class ScheduleRepository {
     }
 
     private List<Lesson> readAllLessons() throws IOException {
-        CSVReader reader = new CSVReader(new InputStreamReader(App.getInstance().getAssets().open("schedule.csv")));
+
+        CSVReader reader = new CSVReader(new InputStreamReader(new FileInputStream(new File(getFilesDir(), "schedule.csv"))));
         List<Lesson> lessons = new ArrayList<>();
         //lessonName,dayOfWeek,lessonNumber,teacher,location,week,groupName,year,semester
         String[] nextLine;
         boolean headers = true;
         while ((nextLine = reader.readNext()) != null) {
-            if(headers){
+            if (headers) {
                 headers = false;
                 continue;
             }
