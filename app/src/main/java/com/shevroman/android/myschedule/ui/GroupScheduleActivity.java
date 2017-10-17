@@ -7,7 +7,6 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.text.Html;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -15,14 +14,12 @@ import android.view.MenuItem;
 import com.shevroman.android.myschedule.Lesson;
 import com.shevroman.android.myschedule.Preferences;
 import com.shevroman.android.myschedule.R;
+import com.shevroman.android.myschedule.ScheduleAsyncTask;
 import com.shevroman.android.myschedule.ScheduleRepository;
 import com.shevroman.android.myschedule.databinding.ActivityChooseGroupBinding;
 import com.shevroman.android.myschedule.databinding.ActivityGroupScheduleBinding;
 
-import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.io.PrintWriter;
 import java.util.Calendar;
 import java.util.Collections;
 import java.util.List;
@@ -31,6 +28,7 @@ import static com.shevroman.android.myschedule.Lesson.Week.Denominator;
 import static com.shevroman.android.myschedule.Lesson.Week.Numerator;
 
 public class GroupScheduleActivity extends AppCompatActivity {
+    public static String csvR;
     Preferences preferences = new Preferences();
     private ActivityChooseGroupBinding bind;
     private String groupName;
@@ -43,14 +41,6 @@ public class GroupScheduleActivity extends AppCompatActivity {
         binding = DataBindingUtil.setContentView(this, R.layout.activity_group_schedule);
         ScheduleAsyncTask asyncTask = new ScheduleAsyncTask();
         asyncTask.execute();
-        try {
-            PrintWriter pw = new PrintWriter(new File(getFilesDir(), "schedule.csv"));
-            pw.write(ScheduleAsyncTask.csvR);
-        } catch (FileNotFoundException e) {
-            Log.e(getClass().getSimpleName(), "schedule.csv is not written");
-        }
-
-        // 1
         groupName = preferences.getSelectedGroup(this);
         if (groupName.isEmpty()) {
             Intent intent = new Intent(this, ChooseGroupActivity.class);
@@ -86,7 +76,6 @@ public class GroupScheduleActivity extends AppCompatActivity {
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-//3
         if (requestCode == 1) {
             if (resultCode == Activity.RESULT_OK) {
                 groupName = data.getStringExtra("result");
@@ -158,7 +147,6 @@ public class GroupScheduleActivity extends AppCompatActivity {
         return true;
 
     }
-
 
 
 }

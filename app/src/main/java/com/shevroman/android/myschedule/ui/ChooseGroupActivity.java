@@ -5,22 +5,20 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
-import android.util.Log;
 
 import com.shevroman.android.myschedule.Lesson;
 import com.shevroman.android.myschedule.R;
+import com.shevroman.android.myschedule.ScheduleAsyncTask;
 import com.shevroman.android.myschedule.ScheduleRepository;
 import com.shevroman.android.myschedule.databinding.ActivityChooseGroupBinding;
 
-import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
 public class ChooseGroupActivity extends AppCompatActivity {
+   public static String csvR;
     private ActivityChooseGroupBinding binding;
     private ScheduleRepository scheduleRepository = new ScheduleRepository();
     @Override
@@ -31,19 +29,11 @@ public class ChooseGroupActivity extends AppCompatActivity {
 
         ScheduleAsyncTask asyncTask = new ScheduleAsyncTask();
         asyncTask.execute();
-        try {
-            PrintWriter pw = new PrintWriter(new File(getFilesDir(), "schedule.csv"));
-            pw.write(ScheduleAsyncTask.csvR);
-        } catch (FileNotFoundException e) {
-            Log.e(getClass().getSimpleName(), "schedule.csv is not written");
-        }
-
 
         new AsyncTask<Void, Void, List<String>>() {
             @Override
             protected List<String> doInBackground(Void... voids) {
                 try {
-
                     ArrayList<String> allGroups = new ArrayList<>(scheduleRepository.getAllGroups(2017, Lesson.Semester.Autumn));
                     Collections.sort(allGroups);
                     return allGroups;

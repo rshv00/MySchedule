@@ -1,7 +1,10 @@
-package com.shevroman.android.myschedule.ui;
+package com.shevroman.android.myschedule;
 
 import android.os.AsyncTask;
 import android.util.Log;
+
+import com.shevroman.android.myschedule.ui.ChooseGroupActivity;
+import com.shevroman.android.myschedule.ui.GroupScheduleActivity;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -16,10 +19,9 @@ import java.nio.charset.Charset;
  * Created by Рома on 10/15/2017.
  */
 
-class ScheduleAsyncTask extends AsyncTask<URL, Void, String> {
+public class ScheduleAsyncTask extends AsyncTask<URL, Void, String> {
 
-    String csvResponse = "";
-    static String csvR;
+    private String csvResponse = "";
     private static final String SCHEDULE_URL =
             "https://docs.google.com/spreadsheets/d/e/2PACX-1vRYTu3kPdUePi3A2PiTYpHf64a" +
                     "9gQynzN522BYUsLPIMnUtvqVpxJHs2bc3hCVNalLCQu9G3SVHpgK7/pub?output=csv";
@@ -28,10 +30,10 @@ class ScheduleAsyncTask extends AsyncTask<URL, Void, String> {
     protected String doInBackground(URL... params) {
         String LOG_TAG = getClass().getSimpleName();
         URL url = createUrl(SCHEDULE_URL);
-
-        String csvResponse = "";
         try {
             csvResponse = makeHttpRequest(url);
+            ChooseGroupActivity.csvR = csvResponse;
+            GroupScheduleActivity.csvR = csvResponse;
         } catch (IOException e) {
             Log.e(LOG_TAG, "Error with making HTTP Request", e);
         }
@@ -39,11 +41,7 @@ class ScheduleAsyncTask extends AsyncTask<URL, Void, String> {
 
         return csvResponse;
     }
-
-    @Override
-    protected void onPostExecute(String s) {
-        csvResponse = csvR;
-    }
+    
 
     /**
      * Returns new URL object from the given string URL.
@@ -78,9 +76,7 @@ class ScheduleAsyncTask extends AsyncTask<URL, Void, String> {
             if (statusCode == 200) {
                 inputStream = urlConnection.getInputStream();
                 csvResponse = readFromStream(inputStream);
-            } else {
-                Log.v(LOG_TAG, "Response code: " + statusCode);
-            }
+            } else Log.v(LOG_TAG, "Response code: " + statusCode);
         } catch (IOException e) {
             Log.v(LOG_TAG, "CSV response couldn't receive");
         } finally {
