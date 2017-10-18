@@ -1,10 +1,12 @@
 package com.shevroman.android.myschedule.ui;
 
+import android.content.Intent;
 import android.databinding.DataBindingUtil;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
+import android.view.KeyEvent;
 
 import com.shevroman.android.myschedule.Lesson;
 import com.shevroman.android.myschedule.R;
@@ -18,9 +20,22 @@ import java.util.Collections;
 import java.util.List;
 
 public class ChooseGroupActivity extends AppCompatActivity {
-   public static String csvR;
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        if (keyCode == KeyEvent.KEYCODE_BACK ) {
+            Intent intent = new Intent(Intent.ACTION_MAIN);
+            intent.addCategory(Intent.CATEGORY_HOME);
+            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            startActivity(intent);
+            return true;
+        }
+        return super.onKeyDown(keyCode, event);
+    }
+
+    public static String csvR;
     private ActivityChooseGroupBinding binding;
     private ScheduleRepository scheduleRepository = new ScheduleRepository();
+    final String LOG_TAG = getClass().getSimpleName();
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -29,7 +44,6 @@ public class ChooseGroupActivity extends AppCompatActivity {
 
         ScheduleAsyncTask asyncTask = new ScheduleAsyncTask();
         asyncTask.execute();
-
         new AsyncTask<Void, Void, List<String>>() {
             @Override
             protected List<String> doInBackground(Void... voids) {

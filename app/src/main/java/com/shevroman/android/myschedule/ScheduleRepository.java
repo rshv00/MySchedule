@@ -1,13 +1,13 @@
 package com.shevroman.android.myschedule;
 
 import android.app.Activity;
+import android.util.Log;
 
 import com.shevroman.android.myschedule.ui.ChooseGroupActivity;
 import com.shevroman.android.myschedule.ui.GroupScheduleActivity;
 
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
-import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -22,10 +22,10 @@ import au.com.bytecode.opencsv.CSVReader;
 
 public class ScheduleRepository extends Activity {
 
-    public String getSchedule(){
-        if (GroupScheduleActivity.csvR != null){
+    public String getSchedule() {
+        if (GroupScheduleActivity.csvR != null) {
             return GroupScheduleActivity.csvR;
-        }else return ChooseGroupActivity.csvR;
+        } else return ChooseGroupActivity.csvR;
     }
 
 
@@ -81,10 +81,7 @@ public class ScheduleRepository extends Activity {
     }
 
     private List<Lesson> readAllLessons() throws IOException {
-        InputStream is = new ByteArrayInputStream(getSchedule().getBytes());
-
-        CSVReader reader = new CSVReader(new InputStreamReader(is));
-
+        CSVReader reader = new CSVReader(new InputStreamReader(new ByteArrayInputStream(getSchedule().getBytes())));
         List<Lesson> lessons = new ArrayList<>();
         //lessonName,dayOfWeek,lessonNumber,teacher,location,week,groupName,year,semester
         String[] nextLine;
@@ -128,7 +125,9 @@ public class ScheduleRepository extends Activity {
                 lesson.setSemester(Lesson.Semester.Autumn);
             }
             lessons.add(lesson);
+            Log.v(getClass().getSimpleName(), lessons.toString());
         }
+
         return lessons;
     }
 }

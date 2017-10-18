@@ -1,7 +1,9 @@
 package com.shevroman.android.myschedule;
 
+import android.app.Activity;
 import android.os.AsyncTask;
 import android.util.Log;
+import android.widget.Toast;
 
 import com.shevroman.android.myschedule.ui.ChooseGroupActivity;
 import com.shevroman.android.myschedule.ui.GroupScheduleActivity;
@@ -19,7 +21,7 @@ import java.nio.charset.Charset;
  * Created by Рома on 10/15/2017.
  */
 
-public class ScheduleAsyncTask extends AsyncTask<URL, Void, String> {
+public class ScheduleAsyncTask extends AsyncTask<URL, Integer, String> {
 
     private String csvResponse = "";
     private static final String SCHEDULE_URL =
@@ -41,7 +43,18 @@ public class ScheduleAsyncTask extends AsyncTask<URL, Void, String> {
 
         return csvResponse;
     }
-    
+
+    @Override
+    protected void onProgressUpdate(Integer... values) {
+        Activity app = new Activity();
+        super.onProgressUpdate(values);
+        int state = Integer.valueOf(values.toString());
+        while (state<=100){
+            Toast.makeText(app.getBaseContext(),"Downloading fresh version of schedule",
+                    Toast.LENGTH_SHORT).show();
+        }
+    }
+
 
     /**
      * Returns new URL object from the given string URL.
@@ -103,7 +116,7 @@ public class ScheduleAsyncTask extends AsyncTask<URL, Void, String> {
             BufferedReader reader = new BufferedReader(inputStreamReader);
             String line = reader.readLine();
             while (line != null) {
-                output.append(line);
+                output.append(line).append("\n");
                 line = reader.readLine();
             }
         }
