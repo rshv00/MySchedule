@@ -7,6 +7,9 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.view.KeyEvent;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 
 import com.shevroman.android.myschedule.Lesson;
 import com.shevroman.android.myschedule.R;
@@ -63,5 +66,27 @@ public class ChooseGroupActivity extends AppCompatActivity {
             }
         }.execute();
 
+    }
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.items_choose_group, menu);
+        return super.onCreateOptionsMenu(menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        super.onOptionsItemSelected(item);
+        switch (item.getItemId()) {
+            case R.id.another_group:
+                Intent intent = new Intent(this, ChooseGroupActivity.class);
+                startActivityForResult(intent, 1);
+                break;
+            case R.id.about:
+                Intent intent1 = new Intent(this, AboutActivity.class);
+                startActivity(intent1);
+        }
+
+        return true;
     }
 }

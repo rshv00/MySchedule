@@ -130,7 +130,7 @@ public class GroupScheduleActivity extends AppCompatActivity {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
-        inflater.inflate(R.menu.items, menu);
+        inflater.inflate(R.menu.items_group_schedule, menu);
         return super.onCreateOptionsMenu(menu);
     }
 
@@ -142,10 +142,12 @@ public class GroupScheduleActivity extends AppCompatActivity {
                 Intent intent = new Intent(this, ChooseGroupActivity.class);
                 startActivityForResult(intent, 1);
                 break;
+            case R.id.about:
+                Intent intent1 = new Intent(this, AboutActivity.class);
+                        startActivity(intent1);
         }
 
         return true;
-
     }
 
 

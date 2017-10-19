@@ -10,7 +10,8 @@
         android:name=".App"
         android:theme="@style/AppTheme">
         <activity android:name=".ui.ChooseGroupActivity">
-
+        </activity>
+        <activity android:name=".ui.AboutActivity">
         </activity>
         <activity android:name=".ui.GroupScheduleActivity">
             <intent-filter>

@@ -1,7 +1,6 @@
 package com.shevroman.android.myschedule;
 
 import android.app.Activity;
-import android.util.Log;
 
 import com.shevroman.android.myschedule.ui.ChooseGroupActivity;
 import com.shevroman.android.myschedule.ui.GroupScheduleActivity;
@@ -125,7 +124,6 @@ public class ScheduleRepository extends Activity {
                 lesson.setSemester(Lesson.Semester.Autumn);
             }
             lessons.add(lesson);
-            Log.v(getClass().getSimpleName(), lessons.toString());
         }
 
         return lessons;
