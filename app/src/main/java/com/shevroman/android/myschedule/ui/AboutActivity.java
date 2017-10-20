@@ -11,24 +11,30 @@ import com.shevroman.android.myschedule.R;
 
 
 public class AboutActivity extends AppCompatActivity {
+    private static final String SCHEDULE_URL =
+            "https://docs.google.com/spreadsheets/d/15hUfskSi1FD6HKTLkCLE5d6A734ueX1RKeguLPudzk4/edit?usp=sharing";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_about);
-
-        LinearLayout sendWishes = (LinearLayout)findViewById(R.id.send_wishes);
+        setTitle("Про програму");
+        LinearLayout sendWishes = (LinearLayout) findViewById(R.id.send_wishes);
+        LinearLayout scheduleSite = (LinearLayout) findViewById(R.id.shedule_site);
         sendWishes.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent i = new Intent(Intent.ACTION_SENDTO);
-                i.setData(Uri.parse("mailto:"));
-                i.putExtra(Intent.EXTRA_SUBJECT, "Відгук про додаток \"Мій Розклад\" " );
-                i.putExtra(android.content.Intent.EXTRA_EMAIL, new String[]{"shevromanvk@gmail.com"});
-                if (i.resolveActivity(getPackageManager()) != null) {
-                    startActivity(i);
-                }
+                Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://www.facebook.com/shev.roman"));
+                startActivity(browserIntent);
             }
         });
+        scheduleSite.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(SCHEDULE_URL));
+                startActivity(browserIntent);
+            }
+        });
+
     }
 }

@@ -1,6 +1,6 @@
 package com.shevroman.android.myschedule;
 
-import android.app.Activity;
+import android.content.Context;
 import android.os.AsyncTask;
 import android.util.Log;
 import android.widget.Toast;
@@ -22,6 +22,11 @@ import java.nio.charset.Charset;
  */
 
 public class ScheduleAsyncTask extends AsyncTask<URL, Integer, String> {
+    private static Context context;
+
+    public ScheduleAsyncTask(Context c) {
+        context = c;
+    }
 
     private String csvResponse = "";
     private static final String SCHEDULE_URL =
@@ -30,6 +35,7 @@ public class ScheduleAsyncTask extends AsyncTask<URL, Integer, String> {
 
     @Override
     protected String doInBackground(URL... params) {
+
         String LOG_TAG = getClass().getSimpleName();
         URL url = createUrl(SCHEDULE_URL);
         try {
@@ -45,13 +51,9 @@ public class ScheduleAsyncTask extends AsyncTask<URL, Integer, String> {
     }
 
     @Override
-    protected void onProgressUpdate(Integer... values) {
-        Activity app = new Activity();
-        super.onProgressUpdate(values);
-        int state = Integer.valueOf(values.toString());
-        while (state<=100){
-            Toast.makeText(app.getBaseContext(),"Downloading fresh version of schedule",
-                    Toast.LENGTH_SHORT).show();
+    protected void onPostExecute(String s) {
+        if (s.isEmpty()) {
+            showToast("Підключіться до Інтернету, щоб завантажити останню версію розкладу");
         }
     }
 
@@ -74,7 +76,7 @@ public class ScheduleAsyncTask extends AsyncTask<URL, Integer, String> {
     /**
      * Make an HTTP request to the given SCHEDULE_URL and return a String as the response.
      */
-    private static String makeHttpRequest(java.net.URL url) throws IOException {
+    private String makeHttpRequest(java.net.URL url) throws IOException {
         String LOG_TAG = GroupScheduleActivity.class.getSimpleName();
         String csvResponse = "";
         HttpURLConnection urlConnection = null;
@@ -121,5 +123,9 @@ public class ScheduleAsyncTask extends AsyncTask<URL, Integer, String> {
             }
         }
         return output.toString();
+    }
+
+    public static void showToast(String message) {
+        Toast.makeText(context, message, Toast.LENGTH_LONG).show();
     }
 }

@@ -1,6 +1,7 @@
 <resources>
-    <string name="app_name">Розклад</string>
+    <string name="app_name">Мій Розклад</string>
     <string name="about_app">Про програму</string>
     <string name="choose_another_group">Обрати іншу групу</string>
+    <string name="search">Пошук</string>
 
 </resources>

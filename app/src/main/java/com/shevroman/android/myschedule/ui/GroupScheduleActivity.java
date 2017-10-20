@@ -39,7 +39,7 @@ public class GroupScheduleActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         binding = DataBindingUtil.setContentView(this, R.layout.activity_group_schedule);
-        ScheduleAsyncTask asyncTask = new ScheduleAsyncTask();
+        ScheduleAsyncTask asyncTask = new ScheduleAsyncTask(getApplicationContext());
         asyncTask.execute();
         groupName = preferences.getSelectedGroup(this);
         if (groupName.isEmpty()) {
@@ -48,6 +48,7 @@ public class GroupScheduleActivity extends AppCompatActivity {
             return;
         }
         showSchedule();
+
     }
 
     private void showSchedule() {
@@ -72,6 +73,7 @@ public class GroupScheduleActivity extends AppCompatActivity {
                 showScheduleOnUI(lessons);
             }
         }.execute();
+        setTitle("Розклад для " + groupName);
     }
 
     @Override
@@ -144,7 +146,7 @@ public class GroupScheduleActivity extends AppCompatActivity {
                 break;
             case R.id.about:
                 Intent intent1 = new Intent(this, AboutActivity.class);
-                        startActivity(intent1);
+                startActivity(intent1);
         }
 
         return true;

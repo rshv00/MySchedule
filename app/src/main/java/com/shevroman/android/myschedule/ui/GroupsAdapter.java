@@ -52,7 +52,7 @@ public class GroupsAdapter extends RecyclerView.Adapter<GroupsAdapter.ViewHolder
 
         public ViewHolder(View itemView) {
             super(itemView);
-            groupNameText = (TextView) itemView.findViewById(R.id.groupNameText);
+            groupNameText = (TextView) itemView.findViewById(R.id.choose_group_item);
             groupNameText.setOnClickListener(this);
         }
 
