@@ -3,9 +3,7 @@
     <item
         android:id="@+id/break_call"
         android:title="@string/break_call" />
-    <item
-        android:id="@+id/teachers_lessons"
-        android:title="@string/teachers_lessons" />
+
     <item
         android:id="@+id/about"
         android:title="@string/about_app" />
