@@ -1,6 +1,12 @@
 <resources>
-    <string name="app_name">Мій Розклад</string>
+    <string name="app_name">Мій ЧГЕК</string>
     <string name="about_app">Про програму</string>
     <string name="choose_another_group">Обрати іншу групу</string>
+    <string name="search">Пошук</string>
+    <string name="break_call">Розклад дзвінків</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="teachers_lessons">По викладачах</string>
 
 </resources>

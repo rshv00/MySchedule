@@ -5,17 +5,19 @@ import android.content.Intent;
 import android.databinding.DataBindingUtil;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.text.Html;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 
+import com.shevroman.android.myschedule.App;
 import com.shevroman.android.myschedule.Lesson;
 import com.shevroman.android.myschedule.Preferences;
 import com.shevroman.android.myschedule.R;
+import com.shevroman.android.myschedule.ScheduleAsyncTask;
 import com.shevroman.android.myschedule.ScheduleRepository;
-import com.shevroman.android.myschedule.databinding.ActivityChooseGroupBinding;
 import com.shevroman.android.myschedule.databinding.ActivityGroupScheduleBinding;
 
 import java.io.IOException;
@@ -26,26 +28,46 @@ import java.util.List;
 import static com.shevroman.android.myschedule.Lesson.Week.Denominator;
 import static com.shevroman.android.myschedule.Lesson.Week.Numerator;
 
-public class GroupScheduleActivity extends AppCompatActivity {
+public class GroupScheduleActivity extends AppCompatActivity implements SwipeRefreshLayout.OnRefreshListener {
     Preferences preferences = new Preferences();
-    private ActivityChooseGroupBinding bind;
     private String groupName;
     private ActivityGroupScheduleBinding binding;
-    private ScheduleRepository scheduleRepository = new ScheduleRepository();
+    private ScheduleRepository scheduleRepository = App.getInstance().getScheduleRepository();
+    private SwipeRefreshLayout swipeRefreshLayout;
+    private boolean swipeRefresh = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         super.onCreate(savedInstanceState);
         binding = DataBindingUtil.setContentView(this, R.layout.activity_group_schedule);
-        // 1
         groupName = preferences.getSelectedGroup(this);
-        if (groupName.isEmpty()) {
-            Intent intent = new Intent(this, ChooseGroupActivity.class);
-            startActivityForResult(intent, 1);
-            return;
+        ScheduleAsyncTask asyncTask = new ScheduleAsyncTask();
+        asyncTask.execute();
+        swipeRefreshLayout = (SwipeRefreshLayout) findViewById(R.id.swipe_refresh);
+        swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                {
+                    binding.groupScheduleContent.setText("");
+                    new ScheduleAsyncTask().execute();
+                    showSchedule();
+                    swipeRefreshLayout.setRefreshing(false);
+                    swipeRefresh = true;
+                }
+            }
+        });
+
+
+        if (!swipeRefresh) {
+            if (groupName.isEmpty()) {
+                Intent intent = new Intent(this, ChooseGroupActivity.class);
+                startActivityForResult(intent, 1);
+                return;
+            }
+            showSchedule();
         }
-        showSchedule();
+
     }
 
     private void showSchedule() {
@@ -70,14 +92,14 @@ public class GroupScheduleActivity extends AppCompatActivity {
                 showScheduleOnUI(lessons);
             }
         }.execute();
+        setTitle("Розклад для " + groupName);
     }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-//3
         if (requestCode == 1) {
             if (resultCode == Activity.RESULT_OK) {
-                groupName = data.getStringExtra("result");
+                groupName = data.getStringExtra("g_result");
                 preferences.setSelectedGroup(groupName, this);
                 showSchedule();
             }
@@ -129,7 +151,7 @@ public class GroupScheduleActivity extends AppCompatActivity {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
-        inflater.inflate(R.menu.items, menu);
+        inflater.inflate(R.menu.items_group_schedule, menu);
         return super.onCreateOptionsMenu(menu);
     }
 
@@ -137,13 +159,29 @@ public class GroupScheduleActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         super.onOptionsItemSelected(item);
         switch (item.getItemId()) {
-            case R.id.another_group:
-                Intent intent = new Intent(this, ChooseGroupActivity.class);
-                startActivityForResult(intent, 1);
+            case R.id.teachers_lessons_gs:
+                Intent i3 = new Intent(this, ChooseTeacherActivity.class);
+                startActivity(i3);
+                finish();
+                break;
+            case R.id.about_gs:
+                Intent intent1 = new Intent(this, AboutActivity.class);
+                startActivity(intent1);
+                break;
+            case android.R.id.home:
+                Intent intent2 = new Intent(this, ChooseGroupActivity.class);
+                startActivityForResult(intent2, 1);
+                break;
+            case R.id.break_call_gs:
+                Intent intent3 = new Intent(this, BreaksActivity.class);
+                startActivity(intent3);
                 break;
         }
-
         return true;
+    }
+
+    @Override
+    public void onRefresh() {
 
     }
 }

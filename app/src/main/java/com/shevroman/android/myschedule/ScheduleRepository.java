@@ -1,8 +1,12 @@
 package com.shevroman.android.myschedule;
 
+import android.text.TextUtils;
+
+import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -14,6 +18,17 @@ import au.com.bytecode.opencsv.CSVReader;
  */
 
 public class ScheduleRepository {
+    private String csvR;
+
+    public String getSchedule() {
+        return csvR;
+    }
+
+    public void setSchedule(String schedule){
+        csvR = schedule;
+    }
+
+
 
     public Set<String> getAllGroups(int year, Lesson.Semester semester) throws IOException {
         Set<String> groups = new HashSet<>();
@@ -67,13 +82,17 @@ public class ScheduleRepository {
     }
 
     private List<Lesson> readAllLessons() throws IOException {
-        CSVReader reader = new CSVReader(new InputStreamReader(App.getInstance().getAssets().open("schedule.csv")));
+        String schedule = getSchedule();
+        if(TextUtils.isEmpty(schedule)){
+            return Collections.emptyList();
+        }
+        CSVReader reader = new CSVReader(new InputStreamReader(new ByteArrayInputStream(schedule.getBytes())));
         List<Lesson> lessons = new ArrayList<>();
-        //lessonName,dayOfWeek,lessonNumber,teacher,location,week,groupName,year,semester
+        //lessonName,dayOfWeek,lessonNumber,teacher,location,week,teacher,year,semester
         String[] nextLine;
         boolean headers = true;
         while ((nextLine = reader.readNext()) != null) {
-            if(headers){
+            if (headers) {
                 headers = false;
                 continue;
             }
@@ -112,6 +131,7 @@ public class ScheduleRepository {
             }
             lessons.add(lesson);
         }
+
         return lessons;
     }
 }
