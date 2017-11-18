@@ -11,71 +11,49 @@ import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
-import android.widget.Toast;
 
+import com.shevroman.android.myschedule.App;
 import com.shevroman.android.myschedule.Lesson;
 import com.shevroman.android.myschedule.R;
 import com.shevroman.android.myschedule.ScheduleAsyncTask;
 import com.shevroman.android.myschedule.ScheduleRepository;
+import com.shevroman.android.myschedule.adapters.GroupsAdapter;
 import com.shevroman.android.myschedule.databinding.ActivityChooseGroupBinding;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Collections;
 import java.util.List;
 
-public class ChooseGroupActivity extends AppCompatActivity implements SwipeRefreshLayout.OnRefreshListener {
+public class ChooseGroupActivity extends AppCompatActivity
+        implements SwipeRefreshLayout.OnRefreshListener {
     private SwipeRefreshLayout swipeRefreshLayout;
-    public static String csvR;
     private ActivityChooseGroupBinding binding;
-    private ScheduleRepository scheduleRepository = new ScheduleRepository();
-    boolean swipeRefresh = false;
+    private ScheduleRepository scheduleRepository = App.getInstance().getScheduleRepository();
+    private List<String> groups;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        ScheduleAsyncTask asyncTask = new ScheduleAsyncTask(getApplicationContext());
         super.onCreate(savedInstanceState);
         binding = DataBindingUtil.setContentView(this, R.layout.activity_choose_group);
-        binding.recyclerView.setLayoutManager(new LinearLayoutManager(this));
+        binding.chooseGroupRecyclerView.setLayoutManager(new LinearLayoutManager(this));
         swipeRefreshLayout = (SwipeRefreshLayout) findViewById(R.id.swipe_refresh_layout);
         swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
-                new ScheduleAsyncTask(getApplicationContext()).execute();
-                finish();
-                startActivity(getIntent());
-                swipeRefresh = true;
+                binding.chooseGroupRecyclerView.removeAllViews();
+                binding.chooseGroupRecyclerView.setLayoutManager(new LinearLayoutManager(
+                        ChooseGroupActivity.this));
+                new ScheduleAsyncTask().execute();
+                new ChooseGroupAsyncTask().execute();
                 swipeRefreshLayout.setRefreshing(false);
-                if (!csvR.isEmpty()){
-                    Toast.makeText(getApplicationContext(), "Оновлено",Toast.LENGTH_SHORT).show();
-                }
             }
         });
 
-        if (swipeRefresh) {
-            asyncTask.execute();
+        new ScheduleAsyncTask().execute();
 
-        }
-
-            new AsyncTask<Void, Void, List<String>>() {
-                @Override
-                protected List<String> doInBackground(Void... voids) {
-                    try {
-                        ArrayList<String> allGroups = new ArrayList<>(scheduleRepository.getAllGroups(2017, Lesson.Semester.Autumn));
-                        Collections.sort(allGroups);
-                        return allGroups;
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }
-                    return Collections.emptyList();
-                }
-
-                @Override
-                protected void onPostExecute(List<String> groups) {
-                    binding.recyclerView.setAdapter(new GroupsAdapter(ChooseGroupActivity.this, groups));
-                }
-            }.execute();
-
+        new ChooseGroupAsyncTask().execute();
     }
 
     @Override
@@ -96,13 +74,18 @@ public class ChooseGroupActivity extends AppCompatActivity implements SwipeRefre
     public boolean onOptionsItemSelected(MenuItem item) {
         super.onOptionsItemSelected(item);
         switch (item.getItemId()) {
-            case R.id.another_group:
-                Intent intent = new Intent(this, ChooseGroupActivity.class);
-                startActivityForResult(intent, 1);
-                break;
             case R.id.about:
                 Intent intent1 = new Intent(this, AboutActivity.class);
                 startActivity(intent1);
+                break;
+            case R.id.break_call:
+                Intent i2 = new Intent(this, BreaksActivity.class);
+                startActivity(i2);
+                break;
+            case R.id.teachers_lessons:
+                Intent i3 = new Intent(this, ChooseTeacherActivity.class);
+                startActivity(i3);
+                break;
         }
 
         return true;
@@ -123,8 +106,32 @@ public class ChooseGroupActivity extends AppCompatActivity implements SwipeRefre
     @Override
     public void onRefresh() {
 
+
     }
-    public ActivityChooseGroupBinding getBinding(){
-        return binding;
+
+
+    private class ChooseGroupAsyncTask extends AsyncTask<Void, Void, List<String>> {
+        Calendar now = Calendar.getInstance();
+        int year = now.get(Calendar.YEAR);
+        int month = now.get(Calendar.MONTH);
+        final Lesson.Semester semester = (month < 8) ? Lesson.Semester.Spring : Lesson.Semester.Autumn;
+
+        @Override
+        protected List<String> doInBackground(Void... voids) {
+            try {
+                ArrayList<String> allGroups = new ArrayList<>(scheduleRepository.getAllGroups(year, semester));
+                Collections.sort(allGroups);
+                groups = allGroups;
+                return allGroups;
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            return Collections.emptyList();
+        }
+
+        @Override
+        protected void onPostExecute(List<String> groups) {
+            binding.chooseGroupRecyclerView.setAdapter(new GroupsAdapter(ChooseGroupActivity.this, groups));
+        }
     }
 }

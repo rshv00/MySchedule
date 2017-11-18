@@ -1,14 +1,12 @@
 package com.shevroman.android.myschedule;
 
-import android.app.Activity;
-
-import com.shevroman.android.myschedule.ui.ChooseGroupActivity;
-import com.shevroman.android.myschedule.ui.GroupScheduleActivity;
+import android.text.TextUtils;
 
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -19,13 +17,17 @@ import au.com.bytecode.opencsv.CSVReader;
  * Created by Рома on 04.02.2017.
  */
 
-public class ScheduleRepository extends Activity {
+public class ScheduleRepository {
+    private String csvR;
 
     public String getSchedule() {
-        if (GroupScheduleActivity.csvR != null) {
-            return GroupScheduleActivity.csvR;
-        } else return ChooseGroupActivity.csvR;
+        return csvR;
     }
+
+    public void setSchedule(String schedule){
+        csvR = schedule;
+    }
+
 
 
     public Set<String> getAllGroups(int year, Lesson.Semester semester) throws IOException {
@@ -80,9 +82,13 @@ public class ScheduleRepository extends Activity {
     }
 
     private List<Lesson> readAllLessons() throws IOException {
-        CSVReader reader = new CSVReader(new InputStreamReader(new ByteArrayInputStream(getSchedule().getBytes())));
+        String schedule = getSchedule();
+        if(TextUtils.isEmpty(schedule)){
+            return Collections.emptyList();
+        }
+        CSVReader reader = new CSVReader(new InputStreamReader(new ByteArrayInputStream(schedule.getBytes())));
         List<Lesson> lessons = new ArrayList<>();
-        //lessonName,dayOfWeek,lessonNumber,teacher,location,week,groupName,year,semester
+        //lessonName,dayOfWeek,lessonNumber,teacher,location,week,teacher,year,semester
         String[] nextLine;
         boolean headers = true;
         while ((nextLine = reader.readNext()) != null) {

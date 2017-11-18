@@ -1,32 +1,38 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.shevroman.android.myschedule">
-    <uses-permission android:name="android.permission.INTERNET"/>
+
+    <uses-permission android:name="android.permission.INTERNET" />
+
     <application
+        android:name=".App"
         android:allowBackup="true"
         android:icon="@mipmap/icon"
         android:label="@string/app_name"
         android:supportsRtl="true"
-        android:name=".App"
         android:theme="@style/AppTheme">
-        <activity android:name=".ui.SearchResultsActivity"
+        <activity
+            android:name=".ui.SearchResultsActivity"
             android:launchMode="singleTop">
             <intent-filter>
-                <action android:name="android.intent.action.SEARCH"/>
+                <action android:name="android.intent.action.SEARCH" />
             </intent-filter>
         </activity>
-        <activity android:name=".ui.ChooseGroupActivity">
-            <meta-data android:name="android.app.searchable"
-                android:resource="@xml/searchable" />
-        </activity>
-        <activity android:name=".ui.AboutActivity">
-        </activity>
-        <activity android:name=".ui.GroupScheduleActivity">
+        <activity android:name=".ui.ChooseGroupActivity" />
+        <activity android:name=".ui.AboutActivity" />
+        <activity
+            android:name=".ui.GroupScheduleActivity"
+            android:parentActivityName=".ui.ChooseGroupActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity android:name=".ui.BreaksActivity" />
+        <activity android:name=".ui.ChooseTeacherActivity" />
+        <activity
+            android:name=".ui.TeacherScheduleActivity"
+            android:parentActivityName=".ui.ChooseTeacherActivity" />
     </application>
 
 </manifest>

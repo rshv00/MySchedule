@@ -5,8 +5,6 @@ import android.app.SearchManager;
 import android.content.Intent;
 import android.os.Bundle;
 
-import com.shevroman.android.myschedule.R;
-
 /**
  * Created by Рома on 10/20/2017.
  */
@@ -16,7 +14,7 @@ public  class SearchResultsActivity extends Activity {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.search);
+        //setContentView(R.layout.search);
     }
 
     @Override

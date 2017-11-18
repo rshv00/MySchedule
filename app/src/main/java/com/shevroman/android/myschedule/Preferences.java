@@ -11,8 +11,8 @@ import android.preference.PreferenceManager;
 public class Preferences {
     public String getSelectedGroup(Activity activity) {
         SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(activity);
-        return preferences.getString("nameOfGroup","");
-        }
+            return preferences.getString("nameOfGroup", "");
+    }
 
     public void setSelectedGroup(String nameOfGroup, Activity activity) {
         SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(activity);

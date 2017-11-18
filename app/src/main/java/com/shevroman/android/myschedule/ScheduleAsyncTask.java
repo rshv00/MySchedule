@@ -1,11 +1,10 @@
 package com.shevroman.android.myschedule;
 
-import android.content.Context;
 import android.os.AsyncTask;
+import android.text.TextUtils;
 import android.util.Log;
 import android.widget.Toast;
 
-import com.shevroman.android.myschedule.ui.ChooseGroupActivity;
 import com.shevroman.android.myschedule.ui.GroupScheduleActivity;
 
 import java.io.BufferedReader;
@@ -22,37 +21,37 @@ import java.nio.charset.Charset;
  */
 
 public class ScheduleAsyncTask extends AsyncTask<URL, Integer, String> {
-    private static Context context;
+    public ScheduleAsyncTask() {
 
-    public ScheduleAsyncTask(Context c) {
-        context = c;
     }
 
     private String csvResponse = "";
     private static final String SCHEDULE_URL =
             "https://docs.google.com/spreadsheets/d/e/2PACX-1vRYTu3kPdUePi3A2PiTYpHf64a" +
                     "9gQynzN522BYUsLPIMnUtvqVpxJHs2bc3hCVNalLCQu9G3SVHpgK7/pub?output=csv";
+    private static final String CACHE_FILE_NAME = "scheduleCache.csv";
 
     @Override
     protected String doInBackground(URL... params) {
-
         String LOG_TAG = getClass().getSimpleName();
         URL url = createUrl(SCHEDULE_URL);
         try {
             csvResponse = makeHttpRequest(url);
-            ChooseGroupActivity.csvR = csvResponse;
-            GroupScheduleActivity.csvR = csvResponse;
+            FileUtils.writeToFile(CACHE_FILE_NAME, csvResponse);
+            App.getInstance().getScheduleRepository().setSchedule(csvResponse);
         } catch (IOException e) {
             Log.e(LOG_TAG, "Error with making HTTP Request", e);
+            csvResponse = FileUtils.readFromFile(CACHE_FILE_NAME);
         }
 
 
         return csvResponse;
     }
 
+
     @Override
     protected void onPostExecute(String s) {
-        if (s.isEmpty()) {
+        if (TextUtils.isEmpty(s)) {
             showToast("Підключіться до Інтернету, щоб завантажити останню версію розкладу");
         }
     }
@@ -94,6 +93,7 @@ public class ScheduleAsyncTask extends AsyncTask<URL, Integer, String> {
             } else Log.v(LOG_TAG, "Response code: " + statusCode);
         } catch (IOException e) {
             Log.v(LOG_TAG, "CSV response couldn't receive");
+            throw e;
         } finally {
             if (urlConnection != null) {
                 urlConnection.disconnect();
@@ -126,6 +126,6 @@ public class ScheduleAsyncTask extends AsyncTask<URL, Integer, String> {
     }
 
     public static void showToast(String message) {
-        Toast.makeText(context, message, Toast.LENGTH_LONG).show();
+        Toast.makeText(App.getInstance(), message, Toast.LENGTH_LONG).show();
     }
 }
