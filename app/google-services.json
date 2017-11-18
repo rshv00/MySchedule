@@ -1,0 +1,42 @@
+{
+  "project_info": {
+    "project_number": "806553491648",
+    "firebase_url": "https://myschedule-33625.firebaseio.com",
+    "project_id": "myschedule-33625",
+    "storage_bucket": "myschedule-33625.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:806553491648:android:702d2824bbf5cb8b",
+        "android_client_info": {
+          "package_name": "com.shevchuk.android.myschedule"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "806553491648-u43l6ro452pj0pvbe7e5cjpkmup341cm.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD8n56QlZxfkND4hxFO3yA31bmkewWaC_g"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

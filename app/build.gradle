@@ -36,3 +36,5 @@ dependencies {
     compile 'com.google.firebase:firebase-crash:11.6.0'
     testCompile 'junit:junit:4.12'
 }
+
+apply plugin: 'com.google.gms.google-services'
