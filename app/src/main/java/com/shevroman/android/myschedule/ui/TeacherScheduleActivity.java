@@ -42,14 +42,12 @@ public class TeacherScheduleActivity extends AppCompatActivity {
 
         binding = DataBindingUtil.setContentView(this, R.layout.activity_teacher_schedule);
         binding.teacherScheduleContent.setText("This is a text " + teacher);
-//        new ScheduleAsyncTask(getApplicationContext()).execute();
-//        showSchedule();
     }
 
     private void showSchedule() {
         Calendar now = Calendar.getInstance();
         final int year = now.get(Calendar.YEAR);
-        int month = now.get(Calendar.MONTH) + 1;
+        int month = now.get(Calendar.MONTH) +  1;
         final Lesson.Semester semester = (month > 8) ? Lesson.Semester.Spring : Lesson.Semester.Autumn;
         int numDayOfWeek = now.get(Calendar.DAY_OF_WEEK);
         Lesson.DayOfWeek dayOfWeek = null;

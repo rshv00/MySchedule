@@ -43,6 +43,7 @@ public class ChooseTeacherActivity extends AppCompatActivity {
         @Override
         protected List<String> doInBackground(Void... params) {
             try {
+
                 List<String> teachers = new ArrayList<>(scheduleRepository.getAllTeachers(year, semester));
                 Collections.sort(teachers);
                 return teachers;

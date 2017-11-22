@@ -1,4 +1,4 @@
-package com.shevroman.android.myschedule;
+package com.shevroman.android.myschedule.adapters;
 
 import android.content.Context;
 import android.support.v4.app.Fragment;
@@ -18,10 +18,6 @@ public class BreaksFragmentPagerAdapter extends FragmentPagerAdapter {
         super(fm);
     }
 
-    public BreaksFragmentPagerAdapter(FragmentManager fm, Context context) {
-        super(fm);
-        mContext = context;
-    }
 
     @Override
     public Fragment getItem(int position) {

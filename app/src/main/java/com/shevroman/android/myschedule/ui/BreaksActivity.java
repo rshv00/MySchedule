@@ -5,7 +5,7 @@ import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 
-import com.shevroman.android.myschedule.BreaksFragmentPagerAdapter;
+import com.shevroman.android.myschedule.adapters.BreaksFragmentPagerAdapter;
 import com.shevroman.android.myschedule.R;
 
 public class BreaksActivity extends AppCompatActivity {

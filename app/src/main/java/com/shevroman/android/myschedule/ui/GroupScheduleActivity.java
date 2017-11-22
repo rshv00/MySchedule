@@ -159,11 +159,6 @@ public class GroupScheduleActivity extends AppCompatActivity implements SwipeRef
     public boolean onOptionsItemSelected(MenuItem item) {
         super.onOptionsItemSelected(item);
         switch (item.getItemId()) {
-           /* case R.id.teachers_lessons_gs:
-                Intent i3 = new Intent(this, ChooseTeacherActivity.class);
-                startActivity(i3);
-                finish();
-                break;*/
             case R.id.about_gs:
                 Intent intent1 = new Intent(this, AboutActivity.class);
                 startActivity(intent1);

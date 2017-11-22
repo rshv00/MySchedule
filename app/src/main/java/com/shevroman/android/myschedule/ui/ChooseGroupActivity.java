@@ -60,13 +60,6 @@ public class ChooseGroupActivity extends AppCompatActivity
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.items_choose_group, menu);
-        // Associate searchable configuration with the SearchView
-        /*SearchManager searchManager =
-                (SearchManager) getSystemService(Context.SEARCH_SERVICE);
-        SearchView searchView =
-                (SearchView) menu.findItem(R.id.search).getActionView();
-        searchView.setSearchableInfo(
-                searchManager.getSearchableInfo(getComponentName()));*/
         return true;
     }
 
@@ -82,10 +75,6 @@ public class ChooseGroupActivity extends AppCompatActivity
                 Intent i2 = new Intent(this, BreaksActivity.class);
                 startActivity(i2);
                 break;
-           /* case R.id.teachers_lessons:
-                Intent i3 = new Intent(this, ChooseTeacherActivity.class);
-                startActivity(i3);
-                break;*/
         }
 
         return true;
