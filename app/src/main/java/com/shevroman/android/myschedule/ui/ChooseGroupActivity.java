@@ -75,6 +75,10 @@ public class ChooseGroupActivity extends AppCompatActivity
                 Intent i2 = new Intent(this, BreaksActivity.class);
                 startActivity(i2);
                 break;
+            case R.id.choose_teacher:
+                Intent i = new Intent(this, ChooseTeacherActivity.class);
+                startActivity(i);
+                break;
         }
 
         return true;

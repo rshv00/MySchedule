@@ -3,7 +3,10 @@
     <item
         android:id="@+id/break_call"
         android:title="@string/break_call" />
-
+<item
+    android:id="@+id/choose_teacher"
+    android:title="По викладачах"
+    />
     <item
         android:id="@+id/about"
         android:title="@string/about_app" />

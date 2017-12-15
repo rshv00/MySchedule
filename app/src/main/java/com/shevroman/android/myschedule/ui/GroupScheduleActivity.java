@@ -34,6 +34,7 @@ public class GroupScheduleActivity extends AppCompatActivity implements SwipeRef
     private ActivityGroupScheduleBinding binding;
     private ScheduleRepository scheduleRepository = App.getInstance().getScheduleRepository();
     private SwipeRefreshLayout swipeRefreshLayout;
+    private String floor;
     private boolean swipeRefresh = false;
 
     @Override
@@ -107,6 +108,7 @@ public class GroupScheduleActivity extends AppCompatActivity implements SwipeRef
     }
 
     private void showScheduleOnUI(List<Lesson> lessons) {
+
         StringBuilder sb = new StringBuilder();
         Lesson.DayOfWeek prevDayOfWeek = null;
         for (Lesson lesson : lessons) {
@@ -131,6 +133,29 @@ public class GroupScheduleActivity extends AppCompatActivity implements SwipeRef
                 prevDayOfWeek = lesson.getDayOfWeek();
                 sb.append("<br>");
             }
+            try {
+                if (lesson.getLocation().contains("-")) {
+                    floor = "";
+                } else if (lesson.getLocation().contains("с/з")) {
+                    floor = "1";
+                } else if (lesson.getLocation().contains("а")) {
+                    floor = "4";
+                } else if (lesson.getLocation().contains("/")) {
+                    String[] parts = lesson.getLocation().split("/");
+                    floor = getFlour(parts[0]) + "/" + getFlour(parts[1]);
+                } else if (Integer.valueOf(lesson.getLocation()) <= 10) {
+                    floor = "1";
+                } else if (Integer.valueOf(lesson.getLocation()) <= 21) {
+                    floor = "2";
+                } else if (Integer.valueOf(lesson.getLocation()) <= 42) {
+                    floor = "3";
+                } else if (Integer.valueOf(lesson.getLocation()) <= 56) {
+                    floor = "4";
+                } else floor = "";
+            } catch (Exception e) {
+                floor = "";
+
+            }
             sb.append(lesson.getLessonNumber())
                     .append(". ");
             if (lesson.getWeek() == Denominator) {
@@ -141,11 +166,14 @@ public class GroupScheduleActivity extends AppCompatActivity implements SwipeRef
             sb.append(lesson.getName())
                     .append("  <font color=\"black\">")
                     .append(lesson.getLocation())
+                    .append(" " + floor)
                     .append("</font>  <i>")
                     .append(lesson.getTeacher())
                     .append("</i><br>");
+
         }
         binding.groupScheduleContent.setText(Html.fromHtml(sb.toString()));
+
     }
 
     @Override
@@ -178,5 +206,21 @@ public class GroupScheduleActivity extends AppCompatActivity implements SwipeRef
     @Override
     public void onRefresh() {
 
+    }
+
+    public String getFlour(String floor) {
+        try {
+            if (Integer.valueOf(floor) <= 10) {
+                return "1";
+            } else if (Integer.valueOf(floor) <= 21) {
+                return "2";
+            } else if (Integer.valueOf(floor) <= 42) {
+                return "3";
+            } else if (Integer.valueOf(floor) <= 56) {
+                return "4";
+            } else return "";
+        } catch (Exception e) {
+            return "";
+        }
     }
 }
